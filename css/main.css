@@ -1,0 +1,105 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  color: #333;
+  font-family: 'Helvetica Neue', 'Arial', sans-serif;
+  font-size: 16px;
+  font-weight: normal;
+  line-height: 150%;
+}
+
+iframe {
+  border: none;
+  width: 100%;
+  height: 100vh;
+}
+
+textarea {
+  padding: 5px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-family: "Monaco", sans-serif;
+  resize: none;
+}
+
+textarea:focus {
+  outline: none;
+  border-color: #719ECE;
+  box-shadow: 0 0 5px #719ECE;
+}
+
+header {
+  overflow: hidden;
+  background: steelblue;
+  color: #fff;
+  padding: 0 20px;
+}
+
+.header-logo {
+  float: left;
+  font-style: italic;
+  transition: color .5s linear;
+}
+
+.header-logo span {
+  color: #f1f1f1;
+}
+
+.header-logo:hover {
+  cursor: pointer;
+  color: #444;
+}
+
+.header-logo span:hover {
+  color: #f1f1f1;
+}
+
+
+.header-buttons {
+  float: right;
+  margin-top: 20px;
+}
+
+.header-buttons button {
+  margin-left: 5px;
+}
+
+.header-buttons button:first-child {
+  margin-left: 0;
+}
+
+.editor {
+  background: whitesmoke;
+  padding: 10px;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+}
+
+.CodeMirror {
+  width: 34%;
+  height: 100px;
+  font-size: 12px;
+  float: left;
+}
+
+.html,
+.css,
+.javascript {
+  display: inline-block;
+  max-width: 33%;
+  width: 100%;
+  height: 155px;
+}
+
+.output {
+  width: 100%;
+  height: 100%
+}
