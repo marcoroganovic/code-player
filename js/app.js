@@ -26,7 +26,8 @@ var CodePlayer = (function() {
     tabSize: 2,
     lineWrapping: true,
     theme: "neo",
-    mode: "htmlmixed"
+    mode: "xml",
+    htmlMode: true
   });
   
   var cssEditor = CodeMirror.fromTextArea($cssEditor, {
@@ -47,11 +48,12 @@ var CodePlayer = (function() {
  
 
   var setHeightOnElements = function(opts) {
-    var elms = document.getElementsByClassName(opts.className);
-   
-    for(var i = 0, n = elms.length; i < n; i++) {
-      elms[i].style.height = opts.height.toString() + "px";
-    }
+    var elmsArrLike = document.getElementsByClassName(opts.className),
+        elArr  = Array.prototype.slice.call(elmsArrLike);
+
+    elArr.forEach(function(el) {
+      el.style.height = opts.height + "px";
+    });
   }  
   
   // Editor callbacks
