@@ -39,11 +39,8 @@ iframe {
 }
 
 textarea {
-  padding: 5px;
   width: 100%;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-family: "Monaco", sans-serif;
+  padding: 5px;
   resize: none;
 }
 
@@ -92,20 +89,31 @@ header {
   margin-left: 0;
 }
 
+.header-run-js {
+  background: #F0DB4F;
+  color: #333;
+  font-weight: bold;
+}
+
 .editor {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  max-height: 200px;
-  padding: 10px;
+  max-height: 250px;
+  padding: 15px;
   overflow: hidden;
-  background: whitesmoke;
+  background: #e0e2e5;
 }
 
 .CodeMirror {
   width: 33%;
   height: 100px;
   font-size: 13px;
+  border-bottom: 1px solid steelblue;
+}
+
+.CodeMirror:focus {
+  border-bottom: 1px solid red;
 }
 
 .CodeMirror-linenumbers {

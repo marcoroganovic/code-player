@@ -13,7 +13,10 @@
       <h3 class="header-logo">Code<span>Player</span></h3>
       <div class="header-buttons">
         <button class="header-clear">Reset Editor</button>
-        <button class="header-toggle">Toogle Editor</button>
+        <button class="header-toggle">Toggle Editor</button>
+        <button class="header-share" onclick="TogetherJS(this); return
+          false;">Code Together</button>
+        <button class="header-run-js">Run JS</button>
       </div>
     </header>
     <div class="editor">
@@ -21,7 +24,7 @@
       <textarea class="css" placeholder="CSS" tabindex="-1"></textarea>
       <textarea class="javascript" placeholder="JavaScript" tabindex="-1"></textarea>
     </div>
-
+    
     <div class="output">
       <iframe id="output"></iframe>
     </div>
@@ -29,6 +32,7 @@
     <script src="libs/xml.js"></script>
     <script src="libs/css.js"></script>
     <script src="libs/javascript.js"></script>
+    <script src="https://togetherjs.com/togetherjs-min.js"></script>
     <script src="js/app.js"></script>
   </body>
 </html>

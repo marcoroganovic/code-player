@@ -10,7 +10,7 @@ var CodePlayer = (function() {
       $iframeHead = $iframe.contentDocument.head,
       $iframeBody = $iframe.contentDocument.body;
 
-  var $style = document.createElement("style"),
+  var $style = $iframeDoc.createElement("style"),
       $script = $iframeDoc.createElement("script");
 
   $iframeHead.appendChild($style);
@@ -18,7 +18,27 @@ var CodePlayer = (function() {
   $iframeHead.appendChild($script);
 
   var $toggleButton = document.getElementsByClassName("header-toggle")[0],
-      $clearFieldsButton = document.getElementsByClassName("header-clear")[0];
+      $clearFieldsButton = document.getElementsByClassName("header-clear")[0],
+      $runJS = document.getElementsByClassName("header-run-js")[0];
+
+
+  // Helper methods
+  var debounce = function(callback, time, immediate) {
+    var timeout;
+    return function() {
+      var that = this,
+          args = arguments;
+      var later = function() {
+        timeout = null;
+        if(!immediate) callback.apply(that, args);
+      }
+
+      var callNow = immediate && !timeout;
+      clearTimeout(timeout);
+      timeout = setTimeout(later, time);
+      if(callNow) callback.apply(that, args);
+    }
+  }
 
   // Transform textarea to CodeMirror instances
   var htmlEditor = CodeMirror.fromTextArea($htmlEditor, {
@@ -45,7 +65,12 @@ var CodePlayer = (function() {
     theme: "neo",
     mode: "text/javascript"
   });
- 
+  
+  var setDefaultValues = function() {
+    htmlEditor.setValue("<!-- HTML -->");
+    cssEditor.setValue("/* CSS */");
+    jsEditor.setValue("'use strict'; // JavaScript");
+  }
 
   var setHeightOnElements = function(opts) {
     var elmsArrLike = document.getElementsByClassName(opts.className),
@@ -63,30 +88,34 @@ var CodePlayer = (function() {
   
   var cssCallback = function(cm, evt) {
     var style = $iframeHead.getElementsByTagName("style")[0];
-    style.parentNode.removeChild(style);
-    
+    if(style) {
+      style.parentNode.removeChild(style);
+    }  
     var newStyle = $iframeDoc.createElement("style");
     newStyle.innerHTML = cssEditor.getValue();
     $iframeHead.appendChild(newStyle);
   }
 
-  var jsCallback = function(cm, evt) {
+  var jsCallback = function(evt) {
     var script = $iframeHead.getElementsByTagName("script")[0];
-    script.parentNode.removeChild(script);
+    if(script) {
+      script.parentNode.removeChild(script);
+    }
 
     var newScript = $iframeDoc.createElement("script");
     newScript.innerHTML = jsEditor.getValue();
     $iframeHead.appendChild(newScript);
+    $iframe.contentWindow = {}; 
   }
   
   // Header button callbacks
   var clearEditor = function() {
     if(confirm("Are you sure?")) {
-      htmlEditor.setValue("");
-      cssEditor.setValue("");
-      jsEditor.setValue("");
+      setDefaultValues();;
       $iframeHead.innerHTML = "";
       $iframeBody.innerHTML = "";
+      $iframe.contentWindow = {};
+      console.clear();
     }
   }
 
@@ -97,7 +126,7 @@ var CodePlayer = (function() {
   var setupListeners = function() {
     htmlEditor.on("keyup", htmlCallback);
     cssEditor.on("keyup", cssCallback);
-    jsEditor.on("keyup", jsCallback);
+    $runJS.addEventListener("click", jsCallback);
     $toggleButton.addEventListener("click", toggleEditorVisibility);
     $clearFieldsButton.addEventListener("click", clearEditor);
   }
@@ -105,7 +134,8 @@ var CodePlayer = (function() {
   return {
     init: function() {
       setupListeners();
-      setHeightOnElements({className: "CodeMirror", height: 173});
+      setDefaultValues();
+      setHeightOnElements({className: "CodeMirror", height: 220});
     }
   }
 
