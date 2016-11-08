@@ -105,6 +105,8 @@ var CodePlayer = (function() {
   }
 
   var jsCallback = function(evt) {
+    htmlCallback();
+    cssCallback();
     insertNewDOMNode({
       tag: "script",
       editor: jsEditor.getValue()
