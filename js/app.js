@@ -44,6 +44,58 @@ var CodePlayer = (function() {
     }
   }
   
+  var removeInlineStyle = function(all) {
+    var i = all.length,
+        j,
+        isHidden;
+
+    var attrs = [
+      "align",
+      "background",
+      "bgcolor",
+      "border",
+      "cellpadding",
+      "cellspacing",
+      "color",
+      "face",
+      "height",
+      "hspace",
+      "marginheight",
+      "marginwidth",
+      "noshade",
+      "nowrap",
+      "valign",
+      "vspace",
+      "width",
+      "vlink",
+      "alink",
+      "text",
+      "link",
+      "frame",
+      "frameborder",
+      "clear",
+      "scrolling",
+      "style"
+    ];
+
+    
+    var attrLen = attrs.length;
+
+    while(i--) {
+      isHidden = (all[i].style.display === "none");
+      
+      j = attrLen;
+
+      while(j--) {
+        all[i].removeAttribute(attrs[j]);
+      }
+
+      if(isHidden) {
+        all[i].style.display = "none";
+        isHidden = false;
+      }
+  }
+
   var returnConfigObj = function(obj) {
     var cfgObj = {
       lineNumbers: true,
@@ -120,6 +172,8 @@ var CodePlayer = (function() {
       setDefaultValues();;
       $iframeHead.innerHTML = "";
       $iframeBody.innerHTML = "";
+      var all = $iframeDoc.getElementsByTagName("*");
+      removeInlineStyles(all);
       $iframe.contentWindow = {};
       console.clear();
     }
