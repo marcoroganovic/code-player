@@ -1,24 +1,32 @@
 var CodePlayer = (function() {
-  // could use querySelector
+
+ 
+ // could use querySelector
  var $editor = document.getElementsByClassName("editor")[0],
       $htmlEditor = document.getElementsByClassName("html")[0],
       $cssEditor = document.getElementsByClassName("css")[0],
       $jsEditor = document.getElementsByClassName("javascript")[0];
 
+ 
+  
   var $iframe = document.getElementById("output"),
       $iframeDoc  = $iframe.contentDocument,
       $iframeHead = $iframe.contentDocument.head,
       $iframeBody = $iframe.contentDocument.body;
  
+  
+  
   var $style = $iframeDoc.createElement("style"),
       $script = $iframeDoc.createElement("script");
 
+  
   var initialDOMAppend = function() {
     $iframeHead.appendChild($style);
     $script.type = "text/javascript";
     $iframeHead.appendChild($script);
   }
 
+  
   var $toggleButton = document.getElementsByClassName("header-toggle")[0],
       $clearFieldsButton = document.getElementsByClassName("header-clear")[0],
       $runJS = document.getElementsByClassName("header-run-js")[0];
@@ -44,38 +52,19 @@ var CodePlayer = (function() {
     }
   }
   
-  var removeInlineStyle = function(all) {
+  
+  
+  var removeInlineStyles = function(all) {
     var i = all.length,
         j,
         isHidden;
 
     var attrs = [
-      "align",
-      "background",
-      "bgcolor",
-      "border",
-      "cellpadding",
-      "cellspacing",
-      "color",
-      "face",
-      "height",
-      "hspace",
-      "marginheight",
-      "marginwidth",
-      "noshade",
-      "nowrap",
-      "valign",
-      "vspace",
-      "width",
-      "vlink",
-      "alink",
-      "text",
-      "link",
-      "frame",
-      "frameborder",
-      "clear",
-      "scrolling",
-      "style"
+      "align", "background", "bgcolor", "border", "cellpadding",
+      "cellspacing", "color", "face", "height", "hspace",
+      "marginheight", "marginwidth", "noshade", "nowrap", "valign",
+      "vspace", "width", "vlink", "alink", "text",
+      "link", "frame", "frameborder", "clear", "scrolling", "style"
     ];
 
     
@@ -94,8 +83,11 @@ var CodePlayer = (function() {
         all[i].style.display = "none";
         isHidden = false;
       }
+    }
   }
 
+  
+  
   var returnConfigObj = function(obj) {
     var cfgObj = {
       lineNumbers: true,
@@ -112,10 +104,14 @@ var CodePlayer = (function() {
     return cfgObj;
   };
 
+  
+  
   // Transform textarea to CodeMirror instances
   var htmlEditor = CodeMirror.fromTextArea($htmlEditor, returnConfigObj({mode: "text/xml"})),
       cssEditor = CodeMirror.fromTextArea($cssEditor, returnConfigObj({mode: "text/css"})),
       jsEditor = CodeMirror.fromTextArea($jsEditor, returnConfigObj({mode: "text/javascript"}));
+  
+  
   
   var setDefaultValues = function() {
     htmlEditor.setValue("<!-- HTML -->");
@@ -124,6 +120,7 @@ var CodePlayer = (function() {
   }
 
 
+  
   var setHeightOnElements = function(opts) {
     var elmsArrLike = document.getElementsByClassName(opts.className),
         elArr  = Array.prototype.slice.call(elmsArrLike);
@@ -133,12 +130,16 @@ var CodePlayer = (function() {
     });
   }  
   
+  
+  
   // Editor callbacks
-  var htmlCallback = function(cm, evt) {
+  var htmlCallback = debounce(function(cm, evt) {
     $iframeBody.innerHTML = htmlEditor.getValue();
     debounce(jsCallback, 3000);
-  }
+  }, 200);
 
+  
+  
   var insertNewDOMNode = function(obj) {
     var element = $iframeHead.getElementsByTagName(obj.tag)[0];
     if(element) {
@@ -150,13 +151,17 @@ var CodePlayer = (function() {
     $iframeHead.appendChild(newElement);
   }
  
-  var cssCallback = function(cm, evt) {
+  
+  
+  var cssCallback = debounce(function(cm, evt) {
     insertNewDOMNode({
       tag: "style",
       editor: cssEditor.getValue()
     });
-  }
+  }, 200);
 
+  
+  
   var jsCallback = function(evt) {
     htmlCallback();
     cssCallback();
@@ -165,6 +170,8 @@ var CodePlayer = (function() {
       editor: jsEditor.getValue()
     });
   }
+  
+  
   
   // Header button callbacks
   var clearEditor = function() {
@@ -179,10 +186,14 @@ var CodePlayer = (function() {
     }
   }
 
+  
+  
   var toggleEditorVisibility = function() {
     $editor.style.display = ($editor.style.display === "none") ? "flex" : "none";
   }
 
+  
+  
   var setupListeners = function() {
     $iframeDoc.onreadystatechange = function() { alert("iframe"); };
     htmlEditor.on("keyup", htmlCallback);
