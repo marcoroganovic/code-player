@@ -9,7 +9,7 @@ var CodePlayer = (function() {
       $iframeDoc  = $iframe.contentDocument,
       $iframeHead = $iframe.contentDocument.head,
       $iframeBody = $iframe.contentDocument.body;
-
+ 
   var $style = $iframeDoc.createElement("style"),
       $script = $iframeDoc.createElement("script");
 
@@ -127,12 +127,14 @@ var CodePlayer = (function() {
   }
 
   var setupListeners = function() {
+    $iframeDoc.onreadystatechange = function() { alert("iframe"); };
     htmlEditor.on("keyup", htmlCallback);
     cssEditor.on("keyup", cssCallback);
     $runJS.addEventListener("click", jsCallback);
     $toggleButton.addEventListener("click", toggleEditorVisibility);
     $clearFieldsButton.addEventListener("click", clearEditor);
   }
+  
 
   return {
     init: function() {
