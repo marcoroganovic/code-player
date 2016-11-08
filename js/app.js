@@ -36,41 +36,38 @@ var CodePlayer = (function() {
       var callNow = immediate && !timeout;
       clearTimeout(timeout);
       timeout = setTimeout(later, time);
-      if(callNow) callback.apply(that, args);
+      if(callNow) {
+        callback.apply(that, args);
+      }
     }
   }
+  
+  var returnConfigObj = function(obj) {
+    var cfgObj = {
+      lineNumbers: true,
+      tabSize: 2,
+      lineWrapping: true,
+      theme: "neo",
+      mode: obj.mode
+    }
+    if(obj.mode === "xml") {
+      cfgObj.htmlMode = true;
+    }
+
+    return cfgObj;
+  };
 
   // Transform textarea to CodeMirror instances
-  var htmlEditor = CodeMirror.fromTextArea($htmlEditor, {
-    lineNumbers: true,
-    tabSize: 2,
-    lineWrapping: true,
-    theme: "neo",
-    mode: "xml",
-    htmlMode: true
-  });
-  
-  var cssEditor = CodeMirror.fromTextArea($cssEditor, {
-    lineNumbers: true,
-    tabSize: 2,
-    lineWrapping: true,
-    theme: "neo",
-    mode: "text/css"
-  });
-
-  var jsEditor = CodeMirror.fromTextArea($jsEditor, {
-    lineNumbers: true,
-    tabSize: 2,
-    lineWrapping: true,
-    theme: "neo",
-    mode: "text/javascript"
-  });
+  var htmlEditor = CodeMirror.fromTextArea($htmlEditor, returnConfigObj({mode: "text/xml"})),
+      cssEditor = CodeMirror.fromTextArea($cssEditor, returnConfigObj({mode: "text/css"})),
+      jsEditor = CodeMirror.fromTextArea($jsEditor, returnConfigObj({mode: "text/javascript"}));
   
   var setDefaultValues = function() {
     htmlEditor.setValue("<!-- HTML -->");
     cssEditor.setValue("/* CSS */");
     jsEditor.setValue("'use strict'; // JavaScript");
   }
+
 
   var setHeightOnElements = function(opts) {
     var elmsArrLike = document.getElementsByClassName(opts.className),
@@ -85,27 +82,30 @@ var CodePlayer = (function() {
   var htmlCallback = function(cm, evt) {
     $iframeBody.innerHTML = htmlEditor.getValue();
   }
-  
+
+  var insertNewDOMNode = function(obj) {
+    var element = $iframeHead.getElementsByTagName(obj.tag)[0];
+    if(element) {
+      element.parentNode.removeChild(element);
+    }
+
+    var newElement = $iframeDoc.createElement(obj.tag);
+    newElement.innerHTML = obj.editor;
+    $iframeHead.appendChild(newElement);
+  }
+ 
   var cssCallback = function(cm, evt) {
-    var style = $iframeHead.getElementsByTagName("style")[0];
-    if(style) {
-      style.parentNode.removeChild(style);
-    }  
-    var newStyle = $iframeDoc.createElement("style");
-    newStyle.innerHTML = cssEditor.getValue();
-    $iframeHead.appendChild(newStyle);
+    insertNewDOMNode({
+      tag: "style",
+      editor: cssEditor.getValue()
+    });
   }
 
   var jsCallback = function(evt) {
-    var script = $iframeHead.getElementsByTagName("script")[0];
-    if(script) {
-      script.parentNode.removeChild(script);
-    }
-
-    var newScript = $iframeDoc.createElement("script");
-    newScript.innerHTML = jsEditor.getValue();
-    $iframeHead.appendChild(newScript);
-    $iframe.contentWindow = {}; 
+    insertNewDOMNode({
+      tag: "script",
+      editor: jsEditor.getValue();
+    });
   }
   
   // Header button callbacks
