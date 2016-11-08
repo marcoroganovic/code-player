@@ -102,11 +102,11 @@ header {
   max-height: 250px;
   padding: 15px;
   overflow: hidden;
-  background: #e0e2e5;
+  background: #f4f7f7; 
 }
 
 .CodeMirror {
-  width: 33%;
+  width: 32.5%;
   height: 100px;
   font-size: 13px;
   border-bottom: 3px solid steelblue;

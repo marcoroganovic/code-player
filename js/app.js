@@ -1,6 +1,6 @@
 var CodePlayer = (function() {
   // could use querySelector
-  var $editor = document.getElementsByClassName("editor")[0],
+ var $editor = document.getElementsByClassName("editor")[0],
       $htmlEditor = document.getElementsByClassName("html")[0],
       $cssEditor = document.getElementsByClassName("css")[0],
       $jsEditor = document.getElementsByClassName("javascript")[0];
