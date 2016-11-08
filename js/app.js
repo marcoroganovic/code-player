@@ -84,6 +84,7 @@ var CodePlayer = (function() {
   // Editor callbacks
   var htmlCallback = function(cm, evt) {
     $iframeBody.innerHTML = htmlEditor.getValue();
+    debounce(jsCallback, 3000);
   }
 
   var insertNewDOMNode = function(obj) {
