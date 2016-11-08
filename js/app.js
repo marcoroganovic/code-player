@@ -13,9 +13,11 @@ var CodePlayer = (function() {
   var $style = $iframeDoc.createElement("style"),
       $script = $iframeDoc.createElement("script");
 
-  $iframeHead.appendChild($style);
-  $script.type = "text/javascript";
-  $iframeHead.appendChild($script);
+  var initialDOMAppend = function() {
+    $iframeHead.appendChild($style);
+    $script.type = "text/javascript";
+    $iframeHead.appendChild($script);
+  }
 
   var $toggleButton = document.getElementsByClassName("header-toggle")[0],
       $clearFieldsButton = document.getElementsByClassName("header-clear")[0],
@@ -50,7 +52,8 @@ var CodePlayer = (function() {
       theme: "neo",
       mode: obj.mode
     }
-    if(obj.mode === "xml") {
+
+    if(obj.mode === "text/xml") {
       cfgObj.htmlMode = true;
     }
 
@@ -133,9 +136,10 @@ var CodePlayer = (function() {
 
   return {
     init: function() {
-      setupListeners();
-      setDefaultValues();
-      setHeightOnElements({className: "CodeMirror", height: 220});
+      initialDOMAppend(); // appends empty style and script tag to iframe head
+      setupListeners(); // sets up eventlisteners on editor fields and buttons in header
+      setDefaultValues(); // sets placeholders of editor fields
+      setHeightOnElements({className: "CodeMirror", height: 220}); 
     }
   }
 
