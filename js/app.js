@@ -9,7 +9,8 @@ var CodePlayer = (function() {
 
  
   
-  var $iframe = document.getElementById("output"),
+  var $output = document.getElementsByClassName("output")[0],
+      $iframe = document.getElementById("output"),
       $iframeDoc  = $iframe.contentDocument,
       $iframeHead = $iframe.contentDocument.head,
       $iframeBody = $iframe.contentDocument.body;
@@ -19,7 +20,7 @@ var CodePlayer = (function() {
   var $style = $iframeDoc.createElement("style"),
       $script = $iframeDoc.createElement("script");
       
-      $script.type = "text/javascript";
+      $script.type = "text/js";
 
   // 3rd party
   var $jq = $iframeDoc.createElement("script"),
@@ -154,22 +155,52 @@ var CodePlayer = (function() {
   // Editor callbacks
   var htmlCallback = debounce(function(cm, evt) {
     $iframeBody.innerHTML = htmlEditor.getValue();
+    var scripts = $iframeHead.getElementsByTagName("script"),
+        js = scripts[scripts.length - 1];
+        js.type = "text/js";
+
     $runJS.innerHTML = "Re-run JS";
   }, 100);
 
   
+  var createScript = function(obj) {
+    var newElement = $iframeDoc.createElement(obj.tag);
+    newElement.type = "text/javascript";
+    newElement.innerHTML = obj.editor;
+    $iframeHead.removeChild(obj.old);
+    $iframeHead.appendChild(newElement);
+    return;
+  }
+
+  var cloneScript = function(obj) {
+    var cloneElement = obj.old.cloneNode(true);
+    cloneElement.type = "text/js";
+    $iframeHead.removeChild(obj.old);
+    $iframeHead.appendChild(cloneElement);
+    return;
+  }
   
+  var createStyle = function(obj) {
+    var newStyle = $iframeDoc.createElement(obj.tag);
+    newStyle.innerText = obj.editor;
+    $iframeHead.removeChild(obj.old);
+    $iframeHead.appendChild(newStyle);
+    return;
+  }
+
   var insertNewDOMNode = function(obj) {
     var elements = $iframeHead.getElementsByTagName(obj.tag),
         element = elements[elements.length - 1];
+        obj.old = element;
 
-    if(element) {
-      element.parentNode.removeChild(element);
-    }
-
-    var newElement = $iframeDoc.createElement(obj.tag);
-    newElement.innerHTML = obj.editor;
-    $iframeHead.appendChild(newElement);
+    if(element.type === "text/js") {    
+      createScript(obj);
+    } else if(element.type === "text/javascript")  {
+      cloneScript(obj);
+    } else {
+      createStyle(obj);
+    } 
+     
   }
  
   
@@ -188,6 +219,7 @@ var CodePlayer = (function() {
       tag: "script",
       editor: jsEditor.getValue()
     });
+
     $runJS.innerHTML = "Run JS";
   }
   
@@ -196,12 +228,11 @@ var CodePlayer = (function() {
   // Header button callbacks
   var clearEditor = function() {
     if(confirm("Are you sure?")) {
-      setDefaultValues();;
+      setDefaultValues();
       $iframeHead.innerHTML = "";
       $iframeBody.innerHTML = "";
       var all = $iframeDoc.getElementsByTagName("*");
       removeInlineStyles(all);
-      $iframe.contentWindow = {};
       console.clear();
     }
   }
@@ -215,7 +246,6 @@ var CodePlayer = (function() {
   
   
   var setupListeners = function() {
-    $iframeDoc.onreadystatechange = function() { alert("iframe"); };
     htmlEditor.on("keyup", htmlCallback);
     cssEditor.on("keyup", cssCallback);
     $runJS.addEventListener("click", jsCallback);
