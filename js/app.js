@@ -18,11 +18,26 @@ var CodePlayer = (function() {
   
   var $style = $iframeDoc.createElement("style"),
       $script = $iframeDoc.createElement("script");
+      
+      $script.type = "text/javascript";
 
-  
+  // 3rd party
+  var $jq = $iframeDoc.createElement("script"),
+      $jqUI = $iframeDoc.createElement("script");
+      
+      $jq.src = "http://code.jquery.com/jquery-3.1.1.min.js";
+      $jqUI.src = "http://code.jquery.com/ui/1.12.1/jquery-ui.min.js";
+      
+    $iframeHead.appendChild($jq);
+    setTimeout(function() {
+      insertNodeAfter({
+        newNode: $jqUI,
+        after: $jq
+      });
+    }, 1000);
+
   var initialDOMAppend = function() {
     $iframeHead.appendChild($style);
-    $script.type = "text/javascript";
     $iframeHead.appendChild($script);
   }
 
@@ -85,7 +100,11 @@ var CodePlayer = (function() {
       }
     }
   }
+  
 
+  var insertNodeAfter = function(obj) {
+    obj.after.parentNode.insertBefore(obj.newNode, obj.after.nextSibling);
+  }
   
   
   var returnConfigObj = function(obj) {
@@ -135,13 +154,15 @@ var CodePlayer = (function() {
   // Editor callbacks
   var htmlCallback = debounce(function(cm, evt) {
     $iframeBody.innerHTML = htmlEditor.getValue();
-    debounce(jsCallback, 3000);
-  }, 200);
+    $runJS.innerHTML = "Re-run JS";
+  }, 100);
 
   
   
   var insertNewDOMNode = function(obj) {
-    var element = $iframeHead.getElementsByTagName(obj.tag)[0];
+    var elements = $iframeHead.getElementsByTagName(obj.tag),
+        element = elements[elements.length - 1];
+
     if(element) {
       element.parentNode.removeChild(element);
     }
@@ -158,17 +179,16 @@ var CodePlayer = (function() {
       tag: "style",
       editor: cssEditor.getValue()
     });
-  }, 200);
+  }, 100);
 
   
   
   var jsCallback = function(evt) {
-    htmlCallback();
-    cssCallback();
     insertNewDOMNode({
       tag: "script",
       editor: jsEditor.getValue()
     });
+    $runJS.innerHTML = "Run JS";
   }
   
   
