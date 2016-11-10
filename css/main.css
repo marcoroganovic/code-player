@@ -2,6 +2,16 @@
   box-sizing: border-box;
 }
 
+html {
+  overflow: scroll;
+  -ms-overflow-style: none;
+  overflow: -moz-scrollbar-none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
 html,
 body {
   height: 100%;
