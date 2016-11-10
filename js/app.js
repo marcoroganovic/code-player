@@ -151,14 +151,17 @@ var CodePlayer = (function() {
   }  
   
   
-  
-  // Editor callbacks
-  var htmlCallback = debounce(function(cm, evt) {
-    $iframeBody.innerHTML = htmlEditor.getValue();
+  var changeScriptType = function() {
     var scripts = $iframeHead.getElementsByTagName("script"),
         js = scripts[scripts.length - 1];
         js.type = "text/js";
+    return;
+  }
 
+  // Editor callbacks
+  var htmlCallback = debounce(function(cm, evt) {
+    $iframeBody.innerHTML = htmlEditor.getValue();
+    changeScriptType();
     $runJS.innerHTML = "Re-run JS";
   }, 100);
 
@@ -182,7 +185,7 @@ var CodePlayer = (function() {
   
   var createStyle = function(obj) {
     var newStyle = $iframeDoc.createElement(obj.tag);
-    newStyle.innerText = obj.editor;
+    newStyle.textContent = obj.editor;
     $iframeHead.removeChild(obj.old);
     $iframeHead.appendChild(newStyle);
     return;
@@ -210,6 +213,8 @@ var CodePlayer = (function() {
       tag: "style",
       editor: cssEditor.getValue()
     });
+    changeScriptType();
+
   }, 100);
 
   
