@@ -30,7 +30,7 @@ var CodePlayer = (function(Helpers) {
   var initialDOMAppend = function() {
     var $style =  $iframeDoc.createElement("style"),
         $script = $iframeDoc.createElement("script");
-        $script.type = "text/javascript";
+        $script.type = "text/js";
 
     $iframeHead.appendChild($style);
     $iframeHead.appendChild($script);
@@ -173,7 +173,7 @@ var CodePlayer = (function(Helpers) {
       editor: cssEditor.getValue()
     });
     changeScriptType();
-
+    $runJS.innerHTML = "Re-run JS";
   }, 100);
 
   
@@ -212,6 +212,7 @@ var CodePlayer = (function(Helpers) {
   var setupListeners = function() {
     htmlEditor.on("keyup", htmlCallback);
     cssEditor.on("keyup", cssCallback);
+    jsEditor.on("keyup", htmlCallback); // refresh DOM when you update JavaScript to remove event listeners
     $runJS.addEventListener("click", jsCallback);
     $toggleButton.addEventListener("click", toggleEditorVisibility);
     $clearFieldsButton.addEventListener("click", clearEditor);
@@ -221,8 +222,8 @@ var CodePlayer = (function(Helpers) {
 
   return {
     init: function() {
+      appendThirdPartyScripts(); // appends 3rd party scripts
       initialDOMAppend(); // appends empty style and script tag to iframe head
-      appendThirdPartyScripts();
       setupListeners(); // sets up eventlisteners on editor fields and buttons in header
       setDefaultValues(); // sets placeholders of editor fields
       Helpers.setHeightOnElements({className: "CodeMirror", height: 220}); 
