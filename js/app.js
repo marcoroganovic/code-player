@@ -96,7 +96,7 @@ var CodePlayer = (function(Helpers) {
   var setDefaultValues = function() {
     htmlEditor.setValue("<!-- HTML -->");
     cssEditor.setValue("/* CSS */");
-    jsEditor.setValue("'use strict'; // JavaScript");
+    jsEditor.setValue("'use strict'; // JavaScript\n// jQuery\n// jQuery UI included");
   }
 
 
