@@ -226,18 +226,18 @@ var CodePlayer = (function(Helpers) {
   }
 
   var iframeResize = function(e) {
-    console.log(e);
     var index = e.srcElement.selectedIndex,
         el = e.target[index],
         viewportWidth = el.dataset.width,
         viewportHeight = el.dataset.height;
-    console.log(viewportHeight, viewportWidth);
     
      changeViewport({
        element: $iframe,
        width: viewportWidth,
        height: viewportHeight
      });
+
+     cssCallback();
   }
 
   var setupListeners = function() {
