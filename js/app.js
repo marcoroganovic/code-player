@@ -5,7 +5,8 @@ var CodePlayer = (function(Helpers) {
  // Cache header buttons
  var $toggleButton      = document.querySelector(".header-toggle"),
      $clearFieldsButton = document.querySelector(".header-clear"),
-     $runJS             = document.querySelector(".header-run-js");
+     $runJS             = document.querySelector(".header-run-js"),
+     $resizeIframe      = document.querySelector(".header-resize");
 
 
  // Cache editor elements
@@ -207,12 +208,43 @@ var CodePlayer = (function(Helpers) {
     $editor.style.display = ($editor.style.display === "none") ? "flex" : "none";
   }
 
-  
-  
+  var changeViewport = function(obj) {
+    var el = obj.element;
+
+    if(obj.width !== "100%") {
+      el.style.border = "1px solid #ccc";
+      el.style.margin = "20px auto";
+      el.style.overflow = "scroll";
+      el.style.width = obj.width + "px";
+      el.style.height = obj.height + "px";
+    } else {
+      el.style.width = obj.width;
+      el.style.height = obj.height;
+      el.style.margin = "0 auto";
+      el.style.border = "none";
+    }
+  }
+
+  var iframeResize = function(e) {
+    console.log(e);
+    var index = e.srcElement.selectedIndex,
+        el = e.target[index],
+        viewportWidth = el.dataset.width,
+        viewportHeight = el.dataset.height;
+    console.log(viewportHeight, viewportWidth);
+    
+     changeViewport({
+       element: $iframe,
+       width: viewportWidth,
+       height: viewportHeight
+     });
+  }
+
   var setupListeners = function() {
     htmlEditor.on("keyup", htmlCallback);
     cssEditor.on("keyup", cssCallback);
     jsEditor.on("keyup", htmlCallback); // refresh DOM when you update JavaScript to remove event listeners
+    $resizeIframe.addEventListener("change", iframeResize);
     $runJS.addEventListener("click", jsCallback);
     $toggleButton.addEventListener("click", toggleEditorVisibility);
     $clearFieldsButton.addEventListener("click", clearEditor);
