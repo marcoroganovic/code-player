@@ -189,7 +189,6 @@ var CodePlayer = (function(Helpers) {
   
   
   
-  // Header button callbacks
   var clearEditor = function() {
     if(confirm("Are you sure?")) {
       setDefaultValues();
@@ -197,11 +196,12 @@ var CodePlayer = (function(Helpers) {
       $iframeBody.innerHTML = "";
       var all = $iframeDoc.getElementsByTagName("*");
       Helpers.removeInlineStyles(all);
+      setupListeners();
       console.clear();
+      window.location.reload();
     }
   }
 
-  
   
   var toggleEditorVisibility = function() {
     $editor.style.display = ($editor.style.display === "none") ? "flex" : "none";
