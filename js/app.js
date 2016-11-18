@@ -228,7 +228,10 @@ var CodePlayer = (function(Helpers) {
     init: function() {
       setupListeners(); // sets up eventlisteners on editor fields and buttons in header
       setDefaultValues(); // sets placeholders of editor fields
-      Helpers.setHeightOnElements({className: "CodeMirror", height: 220}); 
+      Helpers.setHeightOnElements({
+        className: "CodeMirror", 
+        height: 220
+      }); 
     }
   }
 
