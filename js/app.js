@@ -164,13 +164,6 @@ var CodePlayer = (function(Helpers) {
   
   var clearEditor = function() {
     if(confirm("Are you sure?")) {
-      setDefaultValues();
-      $iframeHead.innerHTML = "";
-      $iframeBody.innerHTML = "";
-      var all = $iframeDoc.getElementsByTagName("*");
-      Helpers.removeInlineStyles(all);
-      setupListeners();
-      console.clear();
       window.location.reload();
     }
   }
@@ -184,16 +177,20 @@ var CodePlayer = (function(Helpers) {
     var el = obj.element;
 
     if(obj.width !== "100%") {
-      el.style.border = "1px solid #ccc";
-      el.style.margin = "20px auto";
-      el.style.overflow = "scroll";
-      el.style.width = obj.width + "px";
-      el.style.height = obj.height + "px";
+      Object.assign(el.style, { 
+        border: "1px solid #ccc", 
+        margin: "20px auto",
+        overflow: "scroll",
+        width: obj.width + "px",
+        height: obj.height + "px"
+      });
     } else {
-      el.style.width = obj.width;
-      el.style.height = obj.height;
-      el.style.margin = "0 auto";
-      el.style.border = "none";
+      Object.assign(el.style, {
+        width: obj.width,
+        height: obj.height,
+        margin: "0 auto",
+        border: "none"
+      });
     }
   }
 
