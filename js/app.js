@@ -50,19 +50,19 @@ var CodePlayer = (function(Helpers) {
         $htmlEditor, 
         returnConfigObj({
           mode: "text/xml"
-        })),
+      })),
  
       cssEditor = CodeMirror.fromTextArea(
         $cssEditor, 
         returnConfigObj({
           mode: "text/css"
-        })),
+      })),
 
       jsEditor = CodeMirror.fromTextArea(
         $jsEditor, 
         returnConfigObj({
           mode: "text/javascript"
-        }));
+      }));
   
   
   
@@ -209,14 +209,22 @@ var CodePlayer = (function(Helpers) {
      cssCallback();
   }
 
-  var setupListeners = function() {
-    htmlEditor.on("keyup", htmlCallback);
-    cssEditor.on("keyup", cssCallback);
-    jsEditor.on("keyup", htmlCallback); // refresh DOM when you update JavaScript to remove event listeners
+  var headerListeners = function() {
     $resizeIframe.addEventListener("change", iframeResize);
     $runJS.addEventListener("click", jsCallback);
     $toggleButton.addEventListener("click", toggleEditorVisibility);
     $clearFieldsButton.addEventListener("click", clearEditor);
+  }
+  
+  var editorListeners = function() {
+    htmlEditor.on("keyup", htmlCallback);
+    cssEditor.on("keyup", cssCallback);
+    jsEditor.on("keyup", htmlCallback);
+  }
+
+  var setupListeners = function() {
+    headerListeners();
+    editorListeners();
   }
   
 
