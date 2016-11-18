@@ -23,36 +23,8 @@ var CodePlayer = (function(Helpers) {
  
   // Cache iframe's document, head, and body objects
   var $iframeDoc  = $iframe.contentDocument,
-      $iframeHead = $iframe.contentDocument.head,
-      $iframeBody = $iframe.contentDocument.body;
- 
-  
-  // Create initial elements to append them in iframe head section
-  var initialDOMAppend = function() {
-    var $style =  $iframeDoc.createElement("style"),
-        $script = $iframeDoc.createElement("script");
-        $script.type = "text/js";
-
-    $iframeHead.appendChild($style);
-    $iframeHead.appendChild($script);
-  }
-
-  var appendThirdPartyScripts = function(arr) {
-    var $jq = $iframeDoc.createElement("script"),
-        $jqUI = $iframeDoc.createElement("script");
-      
-    $jq.src = "http://code.jquery.com/jquery-3.1.1.min.js";
-    $jqUI.src = "http://code.jquery.com/ui/1.12.1/jquery-ui.min.js";
-      
-    $iframeHead.appendChild($jq);
-    setTimeout(function() {
-      Helpers.insertNodeAfter({
-        newNode: $jqUI,
-        after: $jq
-      });
-    }, 1000);
-  }
-
+      $iframeHead = $iframeDoc.head,
+      $iframeBody = $iframeDoc.body;
  
   
   var returnConfigObj = function(obj) {
@@ -97,7 +69,7 @@ var CodePlayer = (function(Helpers) {
   var setDefaultValues = function() {
     htmlEditor.setValue("<!-- HTML -->");
     cssEditor.setValue("/* CSS */");
-    jsEditor.setValue("'use strict'; // JavaScript\n// jQuery\n// jQuery UI included");
+    jsEditor.setValue("'use strict'; // jQuery, jQuery UI included");
   }
 
 
@@ -113,7 +85,7 @@ var CodePlayer = (function(Helpers) {
 
   // Editor callbacks
   var htmlCallback = Helpers.debounce(function(cm, evt) {
-    $iframeBody.innerHTML = htmlEditor.getValue();
+    $iframe.contentDocument.body.innerHTML = htmlEditor.getValue();
     changeScriptType();
     $runJS.innerHTML = "Re-run JS";
   }, 100);
@@ -254,8 +226,6 @@ var CodePlayer = (function(Helpers) {
 
   return {
     init: function() {
-      appendThirdPartyScripts(); // appends 3rd party scripts
-      initialDOMAppend(); // appends empty style and script tag to iframe head
       setupListeners(); // sets up eventlisteners on editor fields and buttons in header
       setDefaultValues(); // sets placeholders of editor fields
       Helpers.setHeightOnElements({className: "CodeMirror", height: 220}); 
