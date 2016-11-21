@@ -27,15 +27,18 @@ body {
 }
 
 button {
-  padding: 8px;
+  padding: 8px 10px;
   background: none;
   color: white;
-  border: 2px solid white;
-  border-radius: 5px;
+  border: 1px solid white;
+  border-radius: 20px;
 }
 
 button:hover {
   cursor: pointer;
+  background: white;
+  color: #333;
+  transition: all .2s linear;
 }
 
 button:focus {
