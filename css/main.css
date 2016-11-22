@@ -28,10 +28,11 @@ body {
 
 button {
   padding: 8px 10px;
-  background: none;
-  color: white;
-  border: 1px solid white;
+  background: white;
+  color: #333;
+  border: none;
   border-radius: 20px;
+  font-size: 12px;
 }
 
 button:hover {
