@@ -78,7 +78,6 @@ var CodePlayer = (function(Helpers) {
     var scripts = $iframeHead.getElementsByTagName("script"),
         js = scripts[scripts.length - 1];
         js.type = "text/js";
-    return;
   }
 
 
@@ -98,7 +97,6 @@ var CodePlayer = (function(Helpers) {
     newElement.innerHTML = obj.editor;
     $iframeHead.removeChild(obj.old);
     $iframeHead.appendChild(newElement);
-    return;
   }
 
   
@@ -108,7 +106,6 @@ var CodePlayer = (function(Helpers) {
     cloneElement.type = "text/js";
     $iframeHead.removeChild(obj.old);
     $iframeHead.appendChild(cloneElement);
-    return;
   }
   
  
@@ -118,7 +115,6 @@ var CodePlayer = (function(Helpers) {
     newStyle.textContent = obj.editor;
     $iframeHead.removeChild(obj.old);
     $iframeHead.appendChild(newStyle);
-    return;
   }
 
 
