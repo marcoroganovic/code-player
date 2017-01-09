@@ -87,7 +87,7 @@ var CodePlayer = (function(Helpers) {
     $iframe.contentDocument.body.innerHTML = htmlEditor.getValue();
     changeScriptType();
     $runJS.innerHTML = "Re-run JS";
-  }, 100);
+  }, 50);
 
  
 
