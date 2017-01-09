@@ -1,0 +1,35 @@
+{
+  "name": "code-player",
+  "version": "1.0.0",
+  "description": "Simple in-browser playground for Front-End developer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marcoroganovic/code-player.git"
+  },
+  "keywords": [
+    "html",
+    "css",
+    "javascript",
+    "js",
+    "browser",
+    "front-end",
+    "playground"
+  ],
+  "author": "Marco Roganovic",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marcoroganovic/code-player/issues"
+  },
+  "homepage": "https://github.com/marcoroganovic/code-player#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-concat-css": "^2.3.0",
+    "gulp-uglify": "^2.0.0",
+    "pump": "^1.0.2"
+  }
+}
