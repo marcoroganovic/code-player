@@ -27,6 +27,7 @@
   "homepage": "https://github.com/marcoroganovic/code-player#readme",
   "devDependencies": {
     "gulp": "^3.9.1",
+    "gulp-clean-css": "^2.3.2",
     "gulp-concat": "^2.6.1",
     "gulp-concat-css": "^2.3.0",
     "gulp-uglify": "^2.0.0",
