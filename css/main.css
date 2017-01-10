@@ -67,7 +67,7 @@ textarea:focus {
 
 header {
   overflow: hidden;
-  background: steelblue;
+  background: #0b4a7d;
   color: #fff;
   padding: 0 20px;
 }
@@ -84,7 +84,7 @@ header {
 
 .header-logo:hover {
   cursor: pointer;
-  color: #444;
+  color: #999;
 }
 
 .header-logo span:hover {
@@ -117,7 +117,7 @@ header {
   max-height: 250px;
   padding: 15px;
   overflow: hidden;
-  background: #e0e2e5; 
+  background: #333840;
 }
 
 .CodeMirror {
@@ -125,7 +125,6 @@ header {
   resize: horizontal;
   height: 100px;
   font-size: 13px;
-  border-bottom: 2px solid steelblue;
 }
 
 

@@ -16,7 +16,7 @@ var jsPaths = [
 
 var cssPaths = [
   "./css/codemirror.css",
-  "./css/neo.css",
+  "./css/monokai.css",
   "./css/main.css"
 ];
 

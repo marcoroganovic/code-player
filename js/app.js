@@ -32,7 +32,7 @@ var CodePlayer = (function(Helpers) {
       lineNumbers: true,
       tabSize: 2,
       lineWrapping: true,
-      theme: "neo",
+      theme: "monokai",
       mode: obj.mode
     }
 
