@@ -238,4 +238,6 @@ var CodePlayer = (function(Helpers) {
 
 })(Helpers);
 
-CodePlayer.init();
+setTimeout(function() {
+  CodePlayer.init();
+}, 100);
