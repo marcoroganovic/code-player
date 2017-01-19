@@ -9,9 +9,7 @@ var jsPaths = [
   "./libs/codemirror.js",
   "./libs/xml.js",
   "./libs/css.js",
-  "./libs/javascript.js",
-  "./js/helpers.js",
-  "./js/app.js"
+  "./libs/javascript.js"
 ];
 
 var cssPaths = [
@@ -22,7 +20,7 @@ var cssPaths = [
 
 gulp.task("scripts", function() {
   return gulp.src(jsPaths)
-        .pipe(concat("app.js"))
+        .pipe(concat("bundle.js"))
         .pipe(gulp.dest("./dist/"));
 });
 
@@ -36,7 +34,7 @@ gulp.task("css", function() {
 
 gulp.task("compress", function(cb) {
   pump([
-    gulp.src("./dist/app.js"),
+    gulp.src("./dist/bundle.js"),
     uglify(),
     gulp.dest("dist")
   ],

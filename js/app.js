@@ -20,11 +20,15 @@ var CodePlayer = (function(Helpers) {
   var $output = document.querySelector(".output"),
       $iframe = document.querySelector("#output");
   
- 
-  // Cache iframe's document, head, and body objects
-  var $iframeDoc  = $iframe.contentDocument,
-      $iframeHead = $iframeDoc.head,
-      $iframeBody = $iframeDoc.body;
+  var $iframeDoc, $iframeHead, $iframeBody;
+
+  $iframe.addEventListener("load", function(e) {
+    // Cache iframe's document, head, and body objects on iframe load event
+    // otherwise it often queries empty head tag
+    $iframeDoc  = $iframe.contentDocument,
+    $iframeHead = $iframeDoc.head,
+    $iframeBody = $iframeDoc.body;
+  });
  
   
   var returnConfigObj = function(obj) {
@@ -77,7 +81,7 @@ var CodePlayer = (function(Helpers) {
   var changeScriptType = function() {
     var scripts = $iframeHead.getElementsByTagName("script"),
         js = scripts[scripts.length - 1];
-        js.type = "text/js";
+        js.setAttribute("type", "text/js");
   }
 
 
@@ -87,13 +91,13 @@ var CodePlayer = (function(Helpers) {
     $iframe.contentDocument.body.innerHTML = htmlEditor.getValue();
     changeScriptType();
     $runJS.innerHTML = "Re-run JS";
-  }, 50);
+  }, 20);
 
  
 
   var createScript = function(obj) {
     var newElement = $iframeDoc.createElement(obj.tag);
-    newElement.type = "text/javascript";
+    newElement.setAttribute("type", "text/javascript");
     newElement.innerHTML = obj.editor;
     $iframeHead.removeChild(obj.old);
     $iframeHead.appendChild(newElement);
@@ -143,7 +147,7 @@ var CodePlayer = (function(Helpers) {
     });
     changeScriptType();
     $runJS.innerHTML = "Re-run JS";
-  }, 100);
+  }, 20);
 
   
   
@@ -191,7 +195,7 @@ var CodePlayer = (function(Helpers) {
   }
 
   var iframeResize = function(e) {
-    var index = e.srcElement.selectedIndex,
+    var index = e.srcElement.selectedIndex || e.target.selectedIndex,
         el = e.target[index],
         viewportWidth = el.dataset.width,
         viewportHeight = el.dataset.height;
@@ -232,12 +236,12 @@ var CodePlayer = (function(Helpers) {
       Helpers.setHeightOnElements({
         className: "CodeMirror", 
         height: 220
-      }); 
+      });
     }
   }
 
 })(Helpers);
 
-setTimeout(function() {
+document.addEventListener("DOMContentLoaded", function(e) {
   CodePlayer.init();
-}, 100);
+});
