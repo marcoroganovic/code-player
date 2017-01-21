@@ -9,7 +9,9 @@ var jsPaths = [
   "./libs/codemirror.js",
   "./libs/xml.js",
   "./libs/css.js",
-  "./libs/javascript.js"
+  "./libs/javascript.js",
+  "./js/helpers.js",
+  "./js/app.js"
 ];
 
 var cssPaths = [
