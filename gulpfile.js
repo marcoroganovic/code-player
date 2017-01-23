@@ -1,4 +1,5 @@
 var gulp = require("gulp");
+var gzip = require("gulp-gzip");
 var concat = require("gulp-concat");
 var cssConcat = require("gulp-concat-css");
 var cleanCSS = require("gulp-clean-css");
@@ -38,6 +39,7 @@ gulp.task("compress", function(cb) {
   pump([
     gulp.src("./dist/bundle.js"),
     uglify(),
+    gzip(),
     gulp.dest("dist")
   ],
   cb
