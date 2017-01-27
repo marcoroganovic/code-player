@@ -84,13 +84,23 @@ var CodePlayer = (function(Helpers) {
         js.setAttribute("type", "text/js");
   }
 
+  
+  
+  var changeJSButton = function(active) {
+    if(!active) {
+      $runJS.classList.add("js-active");
+    } else {
+      $runJS.classList.remove("js-active");
+    }
+  }
+
 
 
   // Editor callbacks
   var htmlCallback = Helpers.debounce(function(cm, evt) {
     $iframe.contentDocument.body.innerHTML = htmlEditor.getValue();
     changeScriptType();
-    $runJS.innerHTML = "Re-run JS";
+    changeJSButton(false);
   }, 20);
 
  
@@ -146,7 +156,7 @@ var CodePlayer = (function(Helpers) {
       editor: cssEditor.getValue()
     });
     changeScriptType();
-    $runJS.innerHTML = "Re-run JS";
+    changeJSButton(false);
   }, 20);
 
   
@@ -157,7 +167,7 @@ var CodePlayer = (function(Helpers) {
       editor: jsEditor.getValue()
     });
 
-    $runJS.innerHTML = "Run JS";
+    changeJSButton(true);
   }
   
   

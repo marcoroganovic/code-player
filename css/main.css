@@ -105,9 +105,12 @@ header {
 }
 
 .header-run-js {
-  background: #F0DB4F;
   color: #333;
   font-weight: bold;
+}
+
+.js-active {
+  background: #f0d84f;
 }
 
 .editor {
