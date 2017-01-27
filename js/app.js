@@ -73,15 +73,20 @@ var CodePlayer = (function(Helpers) {
   var setDefaultValues = function() {
     htmlEditor.setValue("<!-- HTML -->");
     cssEditor.setValue("/* CSS */");
-    jsEditor.setValue("'use strict'; // jQuery, jQuery UI included");
+    jsEditor.setValue("'use strict'; // jQuery included");
   }
 
 
 
   var changeScriptType = function() {
-    var scripts = $iframeHead.getElementsByTagName("script"),
-        js = scripts[scripts.length - 1];
-        js.setAttribute("type", "text/js");
+    try {
+      var scripts = $iframeHead.getElementsByTagName("script");
+    } catch(e) {
+      
+    }
+
+    var js = scripts[scripts.length - 1];
+    js.setAttribute("type", "text/js");
   }
 
   
