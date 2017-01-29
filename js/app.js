@@ -81,12 +81,11 @@ var CodePlayer = (function(Helpers) {
   var changeScriptType = function() {
     try {
       var scripts = $iframeHead.getElementsByTagName("script");
+      var js = scripts[scripts.length -1];
+      js.setAttribute("type", "text/js");
     } catch(e) {
-      
+      $iframe.contentWindow.location.reload();
     }
-
-    var js = scripts[scripts.length - 1];
-    js.setAttribute("type", "text/js");
   }
 
   
@@ -113,7 +112,7 @@ var CodePlayer = (function(Helpers) {
   var createScript = function(obj) {
     var newElement = $iframeDoc.createElement(obj.tag);
     newElement.setAttribute("type", "text/javascript");
-    newElement.innerHTML = obj.editor;
+    newElement.textContent = obj.editor;
     $iframeHead.removeChild(obj.old);
     $iframeHead.appendChild(newElement);
   }
@@ -139,17 +138,21 @@ var CodePlayer = (function(Helpers) {
 
   
   var insertNewDOMNode = function(obj) {
-    var elements = $iframeHead.getElementsByTagName(obj.tag),
-        element = elements[elements.length - 1];
-        obj.old = element;
+    try {
+      var elements = $iframeHead.getElementsByTagName(obj.tag),
+          element = elements[elements.length - 1];
+          obj.old = element;
 
-    if(element.type === "text/js") {    
-      createScript(obj);
-    } else if(element.type === "text/javascript")  {
-      cloneScript(obj);
-    } else {
-      createStyle(obj);
-    } 
+      if(element.type === "text/js") {    
+        createScript(obj);
+      } else if(element.type === "text/javascript")  {
+        cloneScript(obj);
+      } else {
+        createStyle(obj);
+      } 
+    } catch(e) {
+      $iframe.contentWindow.location.reload();
+    }
      
   }
  
