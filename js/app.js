@@ -130,10 +130,10 @@ var CodePlayer = (function(Helpers) {
  
   
   var createStyle = function(obj) {
-    var newStyle = $iframeDoc.createElement(obj.tag);
-    newStyle.textContent = obj.editor;
-    $iframeHead.removeChild(obj.old);
-    $iframeHead.appendChild(newStyle);
+    // var newStyle = $iframeDoc.createElement(obj.tag);
+    // newStyle.textContent = obj.editor;
+    obj.old.textContent = obj.editor;
+    // $iframeHead.appendChild(newStyle);
   }
 
 
