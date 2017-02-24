@@ -181,9 +181,11 @@ var CodePlayer = (function(Helpers) {
   
   
   var clearEditor = function() {
-    if(confirm("Are you sure?")) {
-      window.location.reload();
-    }
+    if(!confirm("Are you sure?")) return;
+    setDefaultValues();
+    htmlCallback();
+    cssCallback();
+    jsCallback();
   }
 
   
