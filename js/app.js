@@ -91,11 +91,8 @@ var CodePlayer = (function(Helpers) {
   
   
   var changeJSButton = function(active) {
-    if(!active) {
-      $runJS.classList.add("js-active");
+    $runJS.classList[!active ? "add" : "remove"]("js-active");
     } else {
-      $runJS.classList.remove("js-active");
-    }
   }
 
 
@@ -129,10 +126,10 @@ var CodePlayer = (function(Helpers) {
  
   
   var createStyle = function(obj) {
-    // var newStyle = $iframeDoc.createElement(obj.tag);
-    // newStyle.textContent = obj.editor;
+    var newStyle = $iframeDoc.createElement(obj.tag);
+    newStyle.textContent = obj.editor;
     obj.old.textContent = obj.editor;
-    // $iframeHead.appendChild(newStyle);
+    $iframeHead.appendChild(newStyle);
   }
 
 
