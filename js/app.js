@@ -92,7 +92,6 @@ var CodePlayer = (function(Helpers) {
   
   var changeJSButton = function(active) {
     $runJS.classList[!active ? "add" : "remove"]("js-active");
-    } else {
   }
 
 
